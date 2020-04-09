@@ -1,15 +1,18 @@
 
-function positionFilterBox(orientation) {
+function positionFilterBox(orientation, width) {
     
     if (orientation != last_orientation) {
         if (orientation == 'landscape') {
+            
+            var filter_box_width = width < 750 ? '20px' : '35px';
+            
             d3.select('#filter_div').transition().duration(100)
                     .style('opacity', 0)
-                    .style('width', 0)
-                    .style('height', 0)
-                    .transition().duration(700)
-                    .style('width', text_box.landscape_width)
-                    .style('height', text_box.landscape_height)
+                    .style('width', '0px')
+                    .style('height', '100%')
+                    .transition().duration(600)
+                    .style('width', filter_box_width)
+                    .style('height', '100%')
                     .attr('right', 0)
                     .attr('bottom', 0)
                     .style('opacity', 1);
@@ -18,9 +21,9 @@ function positionFilterBox(orientation) {
             d3.select('#filter_div').transition().duration(100)
                     .style('opacity', 0)
                     .style('width', '100%')
-                    .style('height', '0%')
-                    .transition().duration(700)
-                    .style('height', '5%')
+                    .style('height', '0px')
+                    .transition().duration(600)
+                    .style('height', '40px')
                     .attr('bottom', 0)
                     .attr('right', 0)
                      .style('opacity', 1);
@@ -34,33 +37,33 @@ function filterBoxClicked() {
        if (orientation == 'landscape') {
             d3.select('#filter_div')
                     .transition().duration(500)
-                    .style('width', width)
-                    .style('height', height * .5)
+                    .style('width', '300px')
                     .attr('right', 0)
                     .attr('bottom', 0);
 
         } else {
             d3.select('#filter_div')
                     .transition().duration(500)
-                    .style('height', '50%');
+                    .style('height', height / 2 + 'px');
         }
 
 }
 
-function filterBoxNotClicked() {
+function filterBoxNotClicked(width) {
+    
+        var filter_box_width = width < 750 ? '20px' : '35px';
 
         if (orientation == 'landscape') {
             d3.select('#filter_div')
                     .transition().duration(500)
-                    .style('width', width)
-                    .style('height', height * .5)
+                    .style('width', filter_box_width)
                     .attr('right', 0)
                     .attr('bottom', 0);
 
         } else {
             d3.select('#filter_div')
                     .transition().duration(500)
-                    .style('height', '5%');
+                    .style('height', '40px');
         }
 };
 
@@ -69,22 +72,17 @@ function filterBoxNotClicked() {
 var width = d3.select('#vis').node().getBoundingClientRect().width;
 var height = d3.select('#vis').node().getBoundingClientRect().height;
 var orientation = (width / height) > (4 / 3)   ? 'landscape' : 'portrait';
-var last_orientation = orientation;
-
-//Set margins depending on orientation
-var margin = orientation == 'landscape' ?  { top: 30, left: 40, bottom: 200, right: 40 } : {top: 30, left : 40, bottom: 50, right: 240};
-
-var text_box = {landscape_width: '200px', landscape_height: '80%', portrait_width: '95%', portrait_height: '40px'};
-    
 
 /// position filter_div
-positionFilterBox()
+positionFilterBox(orientation, width);
+
+var last_orientation = orientation;
 
 //Add filter div click listeners to close filter div if anywhere on screen is clicked
 var except = document.getElementById('filter_div');
 
 document.addEventListener('click', function() {
-    filterBoxNotClicked();
+    filterBoxNotClicked(width);
     }, false);
 
 except.addEventListener('click', function(ev) {
@@ -161,7 +159,7 @@ var dummy_player_data = [
 var dummy_team_data = [
     {'team_loc': 'Atlanta', 
      'team_name': 'Hawks',
-     'img_url': 'atlanta_hawks_logo.png'}
+     'img_url': 'https://img.favpng.com/11/25/13/logo-atlanta-hawks-png-favpng-fQbGFDxg8Z0wzMvyKaLU7XuGJ.jpg'}
 ];
 
 var dummy_line_chart_data = {
@@ -177,15 +175,22 @@ var dummy_line_chart_data = {
     
 };
 
-var title_margin = {left: width * .05, top: height * .08};
-var title_svg_height = .2;
-var vis_svg_height = 1 - title_svg_height;
 
+// Set margins based on orientation
+var title_margin = orientation == 'portrait' ? {left: width * .05, top: height * .0} : {left: width * .01, top:                                             height * .08};
+
+var title_svg_height_pct = orientation == 'portrait' ? .15 : 1;
+var title_svg_height = height * title_svg_height_pct;
+var title_svg_width = orientation == 'portrait' ? width : .15 * width;
+var vis_svg_height = orientation == 'portrait' ?  height - title_svg_height : height;
+var svg_display = orientation == 'portrait' ? 'block' : 'inline-block';
 
 // Create SVG
 var title_svg = d3.select('#vis').append('svg')
-                        .attr('width', width)
-                        .attr('height', height * title_svg_height)
+                        .attr('width', title_svg_width)
+                        .style('min-width', '200px')
+                        .style('position', 'fixed')
+                        .attr('height', title_svg_height)
                         .attr('id', 'title_svg');
 
 // Create Title 
@@ -194,25 +199,30 @@ var title_g = title_svg.append('g')
                 .attr('id', 'title_g');
 
 //Set max width of logo to calc right margin
-var logo_img_max_width = 160
+var logo_img_max_width = height < 750 ? (width < 650 ? 70 : 90) : 120;
+
+var logo_img_x = orientation == 'portrait' ? width - (logo_img_max_width + (2 *  title_margin.left)) : title_svg_width * .0;
+var logo_img_y = orientation == 'portrait' ? title_svg_height * .2 : 0;
 
 var logo_img = title_g.append('svg:image')
-                    .attr('x', width - (logo_img_max_width + title_margin.left))
-                    .attr('max-width', logo_img_max_width) 
-                    .attr('height', 80)
-                    .attr('xlink:href', 'https://img.favpng.com/11/25/13/logo-atlanta-hawks-png-favpng-fQbGFDxg8Z0wzMvyKaLU7XuGJ.jpg');
+                    .attr('x', logo_img_x)
+                    .attr('width', logo_img_max_width) 
+                    .attr('y', logo_img_y)
+                    .attr('xlink:href', dummy_team_data[0].img_url);
 
-var logo_img_y = logo_img.node().getBBox().y;
 var logo_img_height = logo_img.node().getBBox().height;
+var logo_img_y_pos = orientation == 'portrait' ? logo_img.node().getBBox().y * .9 : logo_img_height *  1.05;
 
+var team_name_font_size = height < 650 ? '22px' : '36px';
+var team_loc_font_size = height < 650 ? '14px' : '18px';
 
 var team_name_text = title_g.append('text')
                     .text(dummy_team_data[0]['team_name'])
                     .attr('fill', '#272727')
                     .attr('id', 'team_name_text')
-                    .attr('font-size', '36px')
+                    .attr('font-size', team_name_font_size)
                     .attr('text-anchor', 'top')
-                    .attr('y', logo_img_y + logo_img_height)
+                    .attr('y', logo_img_y_pos + logo_img_height)
                     .attr('x', 0);
 
 var team_loc_text_y = team_name_text.node().getBBox().y;
@@ -222,20 +232,28 @@ var team_name_loc = title_g.append('text')
                     .text(dummy_team_data[0]['team_loc'])
                     .attr('fill', '#272727')
                     .attr('id', 'team_loc_text')
-                    .attr('font-size', '18px')
+                    .attr('font-size', team_loc_font_size)
                     .attr('text-anchor', 'bottom')
                     .attr('y', team_loc_text_y - team_loc_text_margin);                    
 
 //Create Heatmap
-var vis_svg = d3.select('#vis').append('svg')
-                        .attr('width', width)
-                        .attr('height', vis_svg_height * height)
-                        .attr('id', 'vis_svg')
+var vis_svg_width = orientation == 'portrait' ? width : width - title_svg_width;
+var vis_svg_margin = orientation == 'portrait' ? {left: 0, top: title_svg_height} : {left: title_svg_width, top: 0};
 
-var heatmap_margin = {left: 0.05, top: 0.05};
-var heatmap_width = width * (1 - (heatmap_margin.left * 2));
+var vis_svg = d3.select('#vis').append('svg')
+                        .attr('width', vis_svg_width)
+                        .attr('height', vis_svg_height)
+                        .attr('id', 'vis_svg')
+                        .style('position', 'fixed')
+                        .style('margin-left', vis_svg_margin.left)
+                        .style('margin-top', vis_svg_margin.top);
+
+var heatmap_margin = orientation == 'portrait' ? {left: 0.05, top: 0.05} : {left: 0, top: .1};
+var heatmap_width = orientation == 'portrait' ? width * (1 - (heatmap_margin.left * 2)) : (width - title_svg_width) * .9;
 var heatmap_block_size = heatmap_width / 48;
-var heatmap_height_multiple = 2.5
+var heatmap_height = orientation == 'portrait' ? vis_svg_height : height;
+var heatmap_line_chart_split = .55;
+var heatmap_height_multiple = heatmap_height * heatmap_line_chart_split / dummy_player_data.length / heatmap_block_size;
 
 var heatmap_g = vis_svg.append('g')
                     .attr('id', 'heatmap_g')
@@ -269,7 +287,10 @@ for (z = 0; z < dummy_player_data.length; z++) {
 
                     return 'translate(0,' + transform_down + ')'
                 });
-
+    
+    
+    var player_name_font_size = heatmap_block_size * heatmap_height_multiple < 35 ? '10px' : '12px';
+    
     heatmap_g.append('text')
         .text(function() {
                             var name_array = dummy_player_data[z].player_name.split(' ');
@@ -279,13 +300,13 @@ for (z = 0; z < dummy_player_data.length; z++) {
                             return first_initial + ' '  + last_name;
                         
                 })
-        .attr('dominant-baseline', 'hanging')
-        .attr('font-size', '12px')
+        .attr('dominant-baseline', 'ideographic')
+        .attr('font-size', player_name_font_size)
         .attr('font-weight', 600)
         .attr('transform', function(d, i) {
-                var transform_down = (heatmap_block_size * heatmap_height_multiple) * z + heatmap_block_size;
+                var transform_down = (heatmap_block_size * heatmap_height_multiple) * (z + 1);
 
-                return 'translate(0,' + transform_down + ')'
+                return 'translate(5,' + transform_down + ')'
                 })
         .attr('id', function() {return 'heatmap_text_' + z})
         .attr('fill', '#272727');
@@ -324,7 +345,7 @@ var heatmap_qtr_lines = heatmap_g.selectAll('.heatmap_qtr_lines')
                                     return dummy_player_data.length * heatmap_block_size * heatmap_height_multiple;
                                 })
                                 .attr('stroke', '#878787')
-                                .attr('stroke-width', '.5px');
+                                .attr('stroke-width', '1px');
 
 var heatmap_qtr_titles = heatmap_g.selectAll('.heatmap_qtr_titles')
                                 .data(['1Q', '2Q', '3Q', '4Q'])
@@ -342,13 +363,13 @@ var heatmap_qtr_titles = heatmap_g.selectAll('.heatmap_qtr_titles')
 var heatmap_g_bottom = heatmap_g.node().getBBox().height;
 var heatmap_g_y = heatmap_g.node().getBBox().y;
 var heatmap_to_bottom = heatmap_g.node().getBoundingClientRect().bottom;
-var line_chart_height = height * .2;
-var line_chart_width = width * (1 - heatmap_margin.left * 2);
+var line_chart_height = vis_svg_height * (.8 - heatmap_line_chart_split);
+var line_chart_width = heatmap_width;
 
 var line_chart_g = vis_svg.append('g')
                         .attr('id', 'line_chart_g')
                         .attr('transform', function() {
-                            return 'translate(' + (heatmap_margin.left * width) + ',' + (heatmap_g_bottom + Math.abs(heatmap_g_y)) + ')';
+                            return 'translate(' + (heatmap_margin.left * width) + ',' + (heatmap_g_bottom + heatmap_g_y + (height * heatmap_margin.top)) + ')';
                         })
 
 var line_chart_border = line_chart_g.append('rect')
