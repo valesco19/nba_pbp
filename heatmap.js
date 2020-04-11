@@ -495,7 +495,7 @@ var APP = (function () {
 	return me;
 })();
 
-setTimeout(function() {console.log('orientation delay:', orientation)}, 5000);
+setTimeout(function() {(width / height > 4 / 3) ? 'landscape' : 'portrait';}, 5000);
 
 // Call onResize like this
 APP.onResize(function() {
