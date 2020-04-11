@@ -185,6 +185,13 @@ var title_svg_width = orientation == 'portrait' ? width : .15 * width;
 var vis_svg_height = orientation == 'portrait' ?  height - title_svg_height : height;
 var svg_display = orientation == 'portrait' ? 'block' : 'inline-block';
 
+
+console.log('height:', height)
+console.log('width:', width)
+console.log('orienation:', orientation)
+console.log('title_svg_height:', title_svg_height)
+
+
 // Create SVG
 var title_svg = d3.select('#vis').append('svg')
                         .attr('width', title_svg_width)
