@@ -495,7 +495,7 @@ var APP = (function () {
 	return me;
 })();
 
-setTimeout(function() {console.log(orientation)}, 5000);
+setTimeout(function() {console.log('portrait')}, 5000);
 
 // Call onResize like this
 APP.onResize(function() {
