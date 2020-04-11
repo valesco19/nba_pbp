@@ -1,7 +1,5 @@
 
 function positionFilterBox(orientation, width) {
-    
-    console.log('orientation', orientation);
 	
     if (orientation != last_orientation) {
         if (orientation == 'landscape') {
@@ -496,6 +494,8 @@ var APP = (function () {
   // returns the me object that has all the public functions in it
 	return me;
 })();
+
+setTimeout(function() {console.log('orientation delay:', orientation)}, 5000);
 
 // Call onResize like this
 APP.onResize(function() {
