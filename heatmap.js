@@ -495,7 +495,7 @@ var APP = (function () {
 	return me;
 })();
 
-setTimeout(function() {(width / height > 4 / 3) ? 'landscape' : 'portrait';}, 5000);
+setTimeout(function() {'portrait';}, 5000);
 
 // Call onResize like this
 APP.onResize(function() {
