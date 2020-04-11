@@ -221,6 +221,7 @@ var logo_img = title_g.append('svg:image')
 
 var logo_img_height = logo_img.node().getBBox().height;
 var logo_img_y_pos = orientation == 'portrait' ? logo_img.node().getBBox().y * .9 : logo_img_height *  1.05;
+console.log('logo_img_y_pos:', logo_img_y_pos);
 
 var team_name_font_size = height < 650 ? '22px' : '36px';
 var team_loc_font_size = height < 650 ? '14px' : '18px';
