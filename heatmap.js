@@ -71,8 +71,9 @@ function filterBoxNotClicked(width) {
 /* Draw Elements */
 var width = d3.select('#vis').node().getBoundingClientRect().width;
 var height = d3.select('#vis').node().getBoundingClientRect().height;
-//var orientation = (width / height) > (4 / 3)   ? 'landscape' : 'portrait';
-var orientation = 'portrait';
+var orientation = (width / height) > (4 / 3)   ? 'landscape' : 'portrait';
+
+console.log('orientation', orientation);
 /// position filter_div
 positionFilterBox(orientation, width);
 
