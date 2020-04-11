@@ -1,6 +1,8 @@
 
 function positionFilterBox(orientation, width) {
     
+    console.log('orientation', orientation);
+	
     if (orientation != last_orientation) {
         if (orientation == 'landscape') {
             
@@ -73,7 +75,6 @@ var width = d3.select('#vis').node().getBoundingClientRect().width;
 var height = d3.select('#vis').node().getBoundingClientRect().height;
 var orientation = (width / height) > (4 / 3)   ? 'landscape' : 'portrait';
 
-console.log('orientation', orientation);
 /// position filter_div
 positionFilterBox(orientation, width);
 
