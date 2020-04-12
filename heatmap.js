@@ -495,7 +495,20 @@ var APP = (function () {
 	return me;
 })();
 
-setTimeout(function() {console.log('portrait')}, 5000);
+function delayedOrientation() {
+
+	var delay_width = d3.select('#vis').node().getBoundingClientRect().width;
+	var delay_height = d3.select('#vis').node().getBoundingClientRect().height;
+	var delay_orientation = (width / height) > (4 / 3)   ? 'landscape' : 'portrait';
+	
+	console.log('delay width:', delay_width)
+	console.log('delay height:', delay_height)
+	console.log('delay orientation:', delay_orientation)
+}
+
+
+
+setTimeout(function() {delayOrientation, 5000);
 
 // Call onResize like this
 APP.onResize(function() {
