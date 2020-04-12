@@ -508,7 +508,7 @@ function delayedOrientation() {
 
 
 
-setTimeout(function() {delayOrientation, 5000);
+setTimeout(delayOrientation, 5000);
 
 // Call onResize like this
 APP.onResize(function() {
