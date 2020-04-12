@@ -1,7 +1,6 @@
 
 function positionFilterBox(orientation, width) {
     
-    if (orientation != last_orientation) {
         if (orientation == 'landscape') {
             
             var filter_box_width = width < 750 ? '20px' : '35px';
@@ -28,8 +27,6 @@ function positionFilterBox(orientation, width) {
                     .attr('right', 0)
                      .style('opacity', 1);
         }
-        last_orientation = orientation
-    };
 };
 
 function filterBoxClicked() {
