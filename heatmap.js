@@ -225,7 +225,7 @@ function drawElements() {
     var logo_img_y_pos = orientation == 'portrait' ? logo_img_height : logo_img_height *  1.2;
 
     var team_name_font_size = height < 650 ? '22px' : '36px';
-    var team_dom_baseline = orientation == 'portrait' ? 'ideographic' : 'hanging';
+    var team_dy_offset = orientation == 'portrait' ? '-0.25em' : '.75em';
     var team_loc_font_size = height < 650 ? '14px' : '18px';
 
     var team_name_text = title_g.append('text')
@@ -233,7 +233,7 @@ function drawElements() {
                         .attr('fill', '#272727')
                         .attr('id', 'team_name_text')
                         .attr('font-size', team_name_font_size)
-                        .attr('dominant-baseline', team_dom_baseline)
+                        .attr('dy', team_dy_offset)
                         .attr('y', logo_img_y_pos)
                         .attr('x', 0);
 
@@ -245,7 +245,7 @@ function drawElements() {
                         .attr('fill', '#272727')
                         .attr('id', 'team_loc_text')
                         .attr('font-size', team_loc_font_size)
-                        .attr('text-anchor', team_dom_baseline)
+                        .attr('text-anchor', team_dy_offset)
                         .attr('y', team_loc_text_y - team_loc_text_margin);                    
 
     //Create Heatmap
@@ -312,7 +312,7 @@ function drawElements() {
                                 return first_initial + ' '  + last_name;
 
                     })
-            .attr('dominant-baseline', 'ideographic')
+            .attr('dy', '-0.25em')
             .attr('font-size', player_name_font_size)
             .attr('font-weight', 600)
             .attr('transform', function(d, i) {
@@ -338,7 +338,7 @@ function drawElements() {
                                     })
                                     .attr('y', 0)
                                     .attr('text-anchor', 'middle')
-                                    .attr('dominant-baseline', 'ideographic')
+                                    .attr('dy', '-0.25em')
                                     .attr('font-size', '6px')
                                     .attr('fill', '#878787');
 
@@ -432,9 +432,9 @@ function drawElements() {
                                                 .attr('font-size', '10px')
                                                 .attr('fill', '#878787')
                                                 .attr('text-anchor', 'middle')  
-                                                .attr('dominant-baseline', function(d,i) {
-                                                    if (i == 0) {return 'hanging'}
-                                                    else {return 'ideographic'};
+                                                .attr('dy', function(d,i) {
+                                                    if (i == 0) {return '.75em'}
+                                                    else {return '-0.25em'};
                                                 })
 
 
@@ -461,7 +461,7 @@ function drawElements() {
                                     })
                                     .attr('x', line_chart_width / 2)
                                     .attr('y', line_chart_height)
-                                    .attr('dominant-baseline', 'ideographic')
+                                    .attr('dy', '-0.25em')
                                     .attr('text-anchor', 'middle')
                                     .attr('font_size', '16px')
                                     .attr('fill', '#878787')
