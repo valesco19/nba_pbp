@@ -184,13 +184,6 @@ function drawElements() {
     var vis_svg_height = orientation == 'portrait' ?  height - title_svg_height : height;
     var svg_display = orientation == 'portrait' ? 'block' : 'inline-block';
 
-
-    console.log('height:', height)
-    console.log('width:', width)
-    console.log('orientation:', orientation)
-    console.log('title_svg_height:', title_svg_height)
-
-
     // Create SVG
     var title_svg = d3.select('#vis').append('svg')
                             .attr('width', title_svg_width)
@@ -218,6 +211,8 @@ function drawElements() {
 
     var logo_img_height = logo_img.node().getBBox().height;
     var logo_img_y_pos = orientation == 'portrait' ? logo_img.node().getBBox().y * .9 : logo_img_height *  1.05;
+
+    console.log(logo_img_y, logo_img_y_pos);
 
     var team_name_font_size = height < 650 ? '22px' : '36px';
     var team_loc_font_size = height < 650 ? '14px' : '18px';
