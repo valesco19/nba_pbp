@@ -206,7 +206,7 @@ function drawElements() {
     var logo_img = title_g.append('svg:image')
                         .attr('x', logo_img_x)
                         .attr('width', logo_img_max_width) 
-    			.attr('height', '100%')
+    			.attr('height', logo_img_max_width)
                         .attr('y', logo_img_y)
                         .attr('xlink:href', dummy_team_data[0].img_url);
 
