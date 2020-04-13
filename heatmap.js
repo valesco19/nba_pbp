@@ -1,5 +1,8 @@
 
 function positionFilterBox(orientation, width) {
+        var width = d3.select('#vis').node().getBoundingClientRect().width;
+        var height = d3.select('#vis').node().getBoundingClientRect().height;
+        var orientation = (width / height) > (4 / 3)   ? 'landscape' : 'portrait';
     
         if (orientation == 'landscape') {
             
@@ -30,6 +33,9 @@ function positionFilterBox(orientation, width) {
 };
 
 function filterBoxClicked() {
+        var width = d3.select('#vis').node().getBoundingClientRect().width;
+        var height = d3.select('#vis').node().getBoundingClientRect().height;
+        var orientation = (width / height) > (4 / 3)   ? 'landscape' : 'portrait';
     
        if (orientation == 'landscape') {
             d3.select('#filter_div')
@@ -47,6 +53,9 @@ function filterBoxClicked() {
 }
 
 function filterBoxNotClicked(width) {
+        var width = d3.select('#vis').node().getBoundingClientRect().width;
+        var height = d3.select('#vis').node().getBoundingClientRect().height;
+        var orientation = (width / height) > (4 / 3)   ? 'landscape' : 'portrait';
     
         var filter_box_width = width < 750 ? '20px' : '35px';
 
@@ -184,6 +193,7 @@ function drawElements() {
     var vis_svg_height = orientation == 'portrait' ?  height - title_svg_height : height;
     var svg_display = orientation == 'portrait' ? 'block' : 'inline-block';
 
+
     // Create SVG
     var title_svg = d3.select('#vis').append('svg')
                             .attr('width', title_svg_width)
@@ -202,20 +212,20 @@ function drawElements() {
 
     var logo_img_x = orientation == 'portrait' ? width - (logo_img_max_width + (2 *  title_margin.left)) : title_svg_width * .0;
     var logo_img_y = orientation == 'portrait' ? title_svg_height * .2 : 0;
+    var logo_img_height = orientation == 'portrait' ? '100%' : logo_img_max_width;
 
     var logo_img = title_g.append('svg:image')
                         .attr('x', logo_img_x)
-                        .attr('width', logo_img_max_width) 
-    			.attr('height', '100%')
+                        .attr('width', logo_img_max_width)
+                        .attr('height', logo_img_height)
                         .attr('y', logo_img_y)
                         .attr('xlink:href', dummy_team_data[0].img_url);
 
     var logo_img_height = logo_img.node().getBBox().height;
-    var logo_img_y_pos = orientation == 'portrait' ? logo_img.node().getBBox().y * .8 : logo_img_height *  1.1;
-
-    console.log(logo_img_y, logo_img_y_pos);
+    var logo_img_y_pos = orientation == 'portrait' ? logo_img_height : logo_img_height *  1.2;
 
     var team_name_font_size = height < 650 ? '22px' : '36px';
+    var team_dom_baseline = orientation == 'portrait' ? 'ideographic' : 'hanging';
     var team_loc_font_size = height < 650 ? '14px' : '18px';
 
     var team_name_text = title_g.append('text')
@@ -223,8 +233,8 @@ function drawElements() {
                         .attr('fill', '#272727')
                         .attr('id', 'team_name_text')
                         .attr('font-size', team_name_font_size)
-                        .attr('dominant-baseline', 'hanging')
-                        .attr('y', logo_img_y_pos + logo_img_height)
+                        .attr('dominant-baseline', team_dom_baseline)
+                        .attr('y', logo_img_y_pos)
                         .attr('x', 0);
 
     var team_loc_text_y = team_name_text.node().getBBox().y;
@@ -235,7 +245,7 @@ function drawElements() {
                         .attr('fill', '#272727')
                         .attr('id', 'team_loc_text')
                         .attr('font-size', team_loc_font_size)
-                        .attr('dominant-baseline', 'ideographic')
+                        .attr('text-anchor', team_dom_baseline)
                         .attr('y', team_loc_text_y - team_loc_text_margin);                    
 
     //Create Heatmap
