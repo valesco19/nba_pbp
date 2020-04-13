@@ -210,7 +210,7 @@ function drawElements() {
                         .attr('xlink:href', dummy_team_data[0].img_url);
 
     var logo_img_height = logo_img.node().getBBox().height;
-    var logo_img_y_pos = orientation == 'portrait' ? logo_img.node().getBBox().y * .9 : logo_img_height *  1.05;
+    var logo_img_y_pos = orientation == 'portrait' ? logo_img.node().getBBox().y * .8 : logo_img_height *  1.1;
 
     console.log(logo_img_y, logo_img_y_pos);
 
