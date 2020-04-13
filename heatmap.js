@@ -234,7 +234,7 @@ function drawElements() {
                         .attr('fill', '#272727')
                         .attr('id', 'team_loc_text')
                         .attr('font-size', team_loc_font_size)
-                        .attr('dominant-baseline', 'hanging')
+                        .attr('dominant-baseline', 'ideographic')
                         .attr('y', team_loc_text_y - team_loc_text_margin);                    
 
     //Create Heatmap
