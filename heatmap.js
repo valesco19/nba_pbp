@@ -222,7 +222,7 @@ function drawElements() {
                         .attr('fill', '#272727')
                         .attr('id', 'team_name_text')
                         .attr('font-size', team_name_font_size)
-                        .attr('text-anchor', 'top')
+                        .attr('dominant-baseline', 'hanging')
                         .attr('y', logo_img_y_pos + logo_img_height)
                         .attr('x', 0);
 
@@ -234,7 +234,7 @@ function drawElements() {
                         .attr('fill', '#272727')
                         .attr('id', 'team_loc_text')
                         .attr('font-size', team_loc_font_size)
-                        .attr('text-anchor', 'bottom')
+                        .attr('dominant-baseline', 'hanging')
                         .attr('y', team_loc_text_y - team_loc_text_margin);                    
 
     //Create Heatmap
