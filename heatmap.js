@@ -330,8 +330,8 @@ function drawFilterBoxElements () {
     let chevron_rotation = orientation == 'portrait' ? 0 : 270;
     let chevron_div_x = orientation == 'portrait' ? (width / 2) - (chevron_div_width / 2) : 5;
     let chevron_div_y = orientation == 'portrait' ? 5 : (height / 2);
-    let chevron_open_dir = 'images/chevron_open.png';
-    let chevron_close_dir = 'images/chevron_close.png';
+    let chevron_open_dir = 'https://imgur.com/FEHwbKB';
+    let chevron_close_dir = 'https://imgur.com/E7PELco';
     
     console.log(height, chevron_div_y);
     
